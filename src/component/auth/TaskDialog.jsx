@@ -1,4 +1,4 @@
-import React from "react";
+import React, { /*useState, useEffect */} from "react";
 import {
   Table,
   TableBody,
@@ -7,43 +7,43 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Avatar,
   Button,
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
+import { useNavigate } from "react-router-dom";
+// import axios from "axios";
 
 
-
-const tasks  =  [
+const tasks = [
   {
-    id: 1,
-    member: "Alice Mayer",
-    avatar: "https://i.pravatar.cc/150?img=1",
-    task: "Call Sam For payments",
+    id: "task_1",
+    title: "Buy Milk",
+    description: "Buy milk from the grocery store",
     priority: "High",
+    dueDate: "2024-10-20T10:30:00.000Z",
   },
   {
-    id: 2,
-    member: "Kate Moss",
-    avatar: "https://i.pravatar.cc/150?img=2",
-    task: "Make payment to Bluedart",
-    priority: "Low",
-  },
-  {
-    id: 3,
-    member: "Danny McChain",
-    avatar: "https://i.pravatar.cc/150?img=3",
-    task: "Office rent",
+    id: "task_2",
+    title: "Finish React Component",
+    description: "Complete the new component for the project",
     priority: "Middle",
+    dueDate: "2024-10-21T09:00:00.000Z",
   },
   {
-    id: 4,
-    member: "Alexa Chung",
-    avatar: "https://i.pravatar.cc/150?img=4",
-    task: "Office grocery shopping",
+    id: "task_3",
+    title: "Send Invoice",
+    description: "Send invoice to client for September",
+    priority: "Low",
+    dueDate: "2024-10-19T16:00:00.000Z",
+  },
+  {
+    id: "task_4",
+    title: "Team Meeting",
+    description: "Attend the weekly team meeting",
     priority: "High",
+    dueDate: "2024-10-22T12:00:00.000Z",
   },
 ];
 
@@ -61,27 +61,54 @@ const getPriorityColor = (priority) => {
 };
 
 const TaskDialog = () => {
+  // const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
+  
+
+  // useEffect(() => {
+  //   fetchTasks();
+  // }, []);
+
+  // const fetchTasks = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3900/task');
+  //     setTasks(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching tasks", error);
+  //   }
+  // };
+
+
+  // const handleDeleteTask = async (taskId) => {
+  //   try {
+  //     await axios.delete(`http://localhost:3900/task/delete/${taskId}`);
+  //     setTasks(tasks.filter(task => task.id !== taskId));  
+  //   } catch (error) {
+  //     console.error("Failed to delete task", error);
+  //   }
+  // };
+
+  const handleAddTaskClick = () => {
+    navigate("/create-task");
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Team Member</TableCell>
-            <TableCell>Task</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Description</TableCell>
             <TableCell>Priority</TableCell>
+            <TableCell>Due Date</TableCell>
             <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {tasks.map((task) => (
             <TableRow key={task.id}>
-              <TableCell>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <Avatar src={task.avatar} alt={task.member} />
-                  <span style={{ marginLeft: 10 }}>{task.member}</span>
-                </div>
-              </TableCell>
-              <TableCell>{task.task}</TableCell>
+              <TableCell>{task.title}</TableCell>
+              <TableCell>{task.description}</TableCell>
               <TableCell>
                 <Button
                   variant="contained"
@@ -91,11 +118,12 @@ const TaskDialog = () => {
                   {task.priority} priority
                 </Button>
               </TableCell>
+              <TableCell>{new Date(task.dueDate).toLocaleString()}</TableCell>
               <TableCell align="center">
                 <IconButton color="success">
                   <CheckIcon />
                 </IconButton>
-                <IconButton color="error">
+                <IconButton color="error">  {/* onClick={() => handleDeleteTask(task.id)} */}
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
@@ -105,7 +133,7 @@ const TaskDialog = () => {
       </Table>
       <div style={{ padding: 16, display: "flex", justifyContent: "flex-end" }}>
         <Button color="inherit">CANCEL</Button>
-        <Button variant="contained" color="primary" style={{ marginLeft: 8 }}>
+        <Button variant="contained" color="primary" style={{ marginLeft: 8 }} onClick={handleAddTaskClick}>
           ADD TASK
         </Button>
       </div>

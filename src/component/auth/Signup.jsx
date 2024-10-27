@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Container, TextField, Typography, Button, Box, Link } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';  // Import for React Router Link
+import { Link as RouterLink } from 'react-router-dom';  
 import Navbar from '../shared/Navbar';
+import axios from 'axios';
 
 const Signup  = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  // const [openSnackbar, setOpenSnackbar] = useState(false);
+  // const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -16,10 +20,27 @@ const Signup  = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
+  
+    try {
+      const response = await axios.post('http://localhost:3900/user/register', formData)
+      console.log('Signup successfully', response.data)
+      // setSnackbarMessage('Signup successful!');
+      // setOpenSnackbar(true);
+    } catch (error) {
+      console.log( error.response?.data || error.message)
+      // setSnackbarMessage('Signup failed. Please try again.');
+      // setOpenSnackbar(true);
+    }
   };
+
+  // const handleCloseSnackbar = (event, reason) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpenSnackbar(false);
+  // };
 
   return (
     <div>
@@ -82,6 +103,12 @@ const Signup  = () => {
         </Typography>
       </Box>
     </Container>
+    {/* <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        /> */}
       </div>
   );
 };
