@@ -3,8 +3,7 @@ import Navbar from "./shared/Navbar"
 import TaskDialog from "./auth/TaskDialog"
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-
-// import Createtask from "./auth/Createtask"
+import { CREATE_TASK } from "../urls";
 
 function Home() {
   const [tasks, setTasks] = useState([]);
@@ -12,7 +11,7 @@ function Home() {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:3900/task");
+      const response = await axios.get(CREATE_TASK);
       setTasks(response.data); 
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -25,9 +24,7 @@ function Home() {
   return (
     <div className="App">
       <Navbar/>
-      <TaskDialog tasks={tasks}/>
-
-     {/* <Createtask/> */}
+      <TaskDialog tasks = {tasks} fetchTasks = {fetchTasks} />
     </div>
   );
 }

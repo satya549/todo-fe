@@ -1,4 +1,4 @@
-import React, { /*useState, useEffect */} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -13,39 +13,26 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { useNavigate } from "react-router-dom";
-// import axios from "axios";
+import { CREATE_TASK } from "../../urls";
+import axios from "axios";
 
 
-const tasks = [
-  {
-    id: "task_1",
-    title: "Buy Milk",
-    description: "Buy milk from the grocery store",
-    priority: "High",
-    dueDate: "2024-10-20T10:30:00.000Z",
-  },
-  {
-    id: "task_2",
-    title: "Finish React Component",
-    description: "Complete the new component for the project",
-    priority: "Middle",
-    dueDate: "2024-10-21T09:00:00.000Z",
-  },
-  {
-    id: "task_3",
-    title: "Send Invoice",
-    description: "Send invoice to client for September",
-    priority: "Low",
-    dueDate: "2024-10-19T16:00:00.000Z",
-  },
-  {
-    id: "task_4",
-    title: "Team Meeting",
-    description: "Attend the weekly team meeting",
-    priority: "High",
-    dueDate: "2024-10-22T12:00:00.000Z",
-  },
-];
+// const tasks = [
+//   {
+//     id: "task_1",
+//     title: "Buy Milk",
+//     description: "Buy milk from the grocery store",
+//     priority: "High",
+//     dueDate: "2024-10-20T10:30:00.000Z",
+//   },
+//   {
+//     id: "task_2",
+//     title: "Finish React Component",
+//     description: "Complete the new component for the project",
+//     priority: "Middle",
+//     dueDate: "2024-10-21T09:00:00.000Z",
+//   },
+// ];
 
 const getPriorityColor = (priority) => {
   switch (priority) {
@@ -61,32 +48,33 @@ const getPriorityColor = (priority) => {
 };
 
 const TaskDialog = () => {
-  // const [tasks, setTasks] = useState([]);
+ const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
   
 
-  // useEffect(() => {
-  //   fetchTasks();
-  // }, []);
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
-  // const fetchTasks = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3900/task');
-  //     setTasks(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching tasks", error);
-  //   }
-  // };
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get( CREATE_TASK);
+      //setTasks(response.data);
+      setTasks(Array.isArray(response.data) ? response.data : []);
+    } catch (error) {
+      console.error("Error fetching tasks", error);
+    }
+  };
 
 
-  // const handleDeleteTask = async (taskId) => {
-  //   try {
-  //     await axios.delete(`http://localhost:3900/task/delete/${taskId}`);
-  //     setTasks(tasks.filter(task => task.id !== taskId));  
-  //   } catch (error) {
-  //     console.error("Failed to delete task", error);
-  //   }
-  // };
+  const handleDeleteTask = async (taskId) => {
+    try {
+      await axios.delete(`${CREATE_TASK}/${taskId}`);
+       setTasks(tasks.filter(task => task.id !== taskId));  
+    } catch (error) {
+      console.error("Failed to delete task", error);
+    }
+  };
 
   const handleAddTaskClick = () => {
     navigate("/create-task");
@@ -109,6 +97,8 @@ const TaskDialog = () => {
             <TableRow key={task.id}>
               <TableCell>{task.title}</TableCell>
               <TableCell>{task.description}</TableCell>
+              <TableCell>{task.priority}</TableCell>
+              <TableCell>{task.dueDate}</TableCell>
               <TableCell>
                 <Button
                   variant="contained"
@@ -123,7 +113,7 @@ const TaskDialog = () => {
                 <IconButton color="success">
                   <CheckIcon />
                 </IconButton>
-                <IconButton color="error">  {/* onClick={() => handleDeleteTask(task.id)} */}
+                <IconButton color="error" onClick={() => handleDeleteTask(task.id)}  > 
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

@@ -11,6 +11,7 @@ import {
 import Navbar from "../shared/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {CREATE_TASK} from '../../urls';
 
 const priorities = ["High", "Middle", "Low"];
 
@@ -32,8 +33,8 @@ const TaskForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3900/task/create', taskData)
-      console.log('Task created successfully', response.data)
+      const response = await axios.post(CREATE_TASK, taskData)
+      console.log(response.data)
       navigate("/");
     } catch (error) {
       console.log( error.response?.data || error.message)
