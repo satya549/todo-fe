@@ -47,7 +47,7 @@ const getPriorityColor = (priority) => {
   }
 };
 
-const TaskDialog = () => {
+const TaskDialog = (/*{ tasks, fetchTasks }*/) => {
  const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
   
@@ -59,7 +59,8 @@ const TaskDialog = () => {
   const fetchTasks = async () => {
     try {
       const response = await axios.get( CREATE_TASK);
-      //setTasks(response.data);
+      setTasks(response.data);
+     // fetchTasks();
       setTasks(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error("Error fetching tasks", error);
@@ -93,7 +94,7 @@ const TaskDialog = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tasks.map((task) => (
+          {(Array.isArray(tasks) ? tasks : []).map((task) => (
             <TableRow key={task.id}>
               <TableCell>{task.title}</TableCell>
               <TableCell>{task.description}</TableCell>
