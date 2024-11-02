@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Table,
   TableBody,
@@ -47,31 +47,32 @@ const getPriorityColor = (priority) => {
   }
 };
 
-const TaskDialog = (/*{ tasks, fetchTasks }*/) => {
- const [tasks, setTasks] = useState([]);
+const TaskDialog = ({ tasks = [], fetchTasks }) => {
+ //const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
   
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
+  // useEffect(() => {
+  //   fetchTasks();
+  // }, []);
 
-  const fetchTasks = async () => {
-    try {
-      const response = await axios.get( CREATE_TASK);
-      setTasks(response.data);
+  // const fetchTasks = async () => {
+  //   try {
+  //     const response = await axios.get( CREATE_TASK);
+  //     setTasks(response.data);
      // fetchTasks();
-      setTasks(Array.isArray(response.data) ? response.data : []);
-    } catch (error) {
-      console.error("Error fetching tasks", error);
-    }
-  };
+  //     setTasks(Array.isArray(response.data) ? response.data : []);
+  //   } catch (error) {
+  //     console.error("Error fetching tasks", error);
+  //   }
+  // };
 
 
   const handleDeleteTask = async (taskId) => {
     try {
       await axios.delete(`${CREATE_TASK}/${taskId}`);
-       setTasks(tasks.filter(task => task.id !== taskId));  
+      fetchTasks();
+       //setTasks(tasks.filter(task => task.id !== taskId));  
     } catch (error) {
       console.error("Failed to delete task", error);
     }
@@ -94,12 +95,12 @@ const TaskDialog = (/*{ tasks, fetchTasks }*/) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(Array.isArray(tasks) ? tasks : []).map((task) => (
+          {/*(Array.isArray(tasks) ? tasks : [])*/ Array.isArray(tasks) && tasks.map((task) => (
             <TableRow key={task.id}>
               <TableCell>{task.title}</TableCell>
               <TableCell>{task.description}</TableCell>
-              <TableCell>{task.priority}</TableCell>
-              <TableCell>{task.dueDate}</TableCell>
+              {/* <TableCell>{task.priority}</TableCell>
+              <TableCell>{task.dueDate}</TableCell> */}
               <TableCell>
                 <Button
                   variant="contained"

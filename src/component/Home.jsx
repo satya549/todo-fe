@@ -12,11 +12,14 @@ function Home() {
   const fetchTasks = async () => {
     try {
       const response = await axios.get(CREATE_TASK);
-      setTasks(response.data); 
+      setTasks(Array.isArray(response.data) ? response.data : []);
+      //setTasks(response.data); 
     } catch (error) {
       console.error("Error fetching tasks:", error);
+      setTasks([]);
     }
   };
+
   useEffect(() => {
     fetchTasks();
   }, [location]);
@@ -25,6 +28,7 @@ function Home() {
     <div className="App">
       <Navbar/>
       <TaskDialog tasks = {tasks} fetchTasks = {fetchTasks} />
+
     </div>
   );
 }
