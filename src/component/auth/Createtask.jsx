@@ -15,13 +15,14 @@ import {CREATE_TASK} from '../../urls';
 
 const priorities = ["High", "Middle", "Low"];
 
-const TaskForm = ({ fetchTasks }) => {
+const TaskForm = () => {
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
     priority: "",
     dueDate: "",
   });
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -34,11 +35,9 @@ const TaskForm = ({ fetchTasks }) => {
 
     try {
       const response = await axios.post(CREATE_TASK, taskData)
-      if (response.status === 201) {
-        fetchTasks();
-      // console.log(response.data)
+      console.log(response.data)
       navigate("/");
-      }
+      
     } catch (error) {
       console.log( error.response?.data || error.message)
   };

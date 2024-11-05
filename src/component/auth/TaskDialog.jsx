@@ -50,23 +50,6 @@ const getPriorityColor = (priority) => {
 const TaskDialog = ({ tasks = [], fetchTasks }) => {
  //const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
-  
-
-  // useEffect(() => {
-  //   fetchTasks();
-  // }, []);
-
-  // const fetchTasks = async () => {
-  //   try {
-  //     const response = await axios.get( CREATE_TASK);
-  //     setTasks(response.data);
-     // fetchTasks();
-  //     setTasks(Array.isArray(response.data) ? response.data : []);
-  //   } catch (error) {
-  //     console.error("Error fetching tasks", error);
-  //   }
-  // };
-
 
   const handleDeleteTask = async (taskId) => {
     try {
@@ -99,8 +82,8 @@ const TaskDialog = ({ tasks = [], fetchTasks }) => {
             <TableRow key={task.id}>
               <TableCell>{task.title}</TableCell>
               <TableCell>{task.description}</TableCell>
-              {/* <TableCell>{task.priority}</TableCell>
-              <TableCell>{task.dueDate}</TableCell> */}
+              {/*<TableCell>{task.priority}</TableCell>
+              <TableCell>{task.dueDate}</TableCell>*/}
               <TableCell>
                 <Button
                   variant="contained"
