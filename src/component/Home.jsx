@@ -11,7 +11,7 @@ function Home() {
     try {
       const response = await axios.get(CREATE_TASK);
       console.log("Fetched tasks:", response.data);
-      setTasks(Array.isArray(response.data) ? response.data : []);
+      setTasks(Array.isArray(response.data.data) ? response.data.data : []);
     } catch (error) {
       console.error("Error fetching tasks:", error);
       setTasks([]);
@@ -21,7 +21,7 @@ function Home() {
   useEffect(() => {
     fetchTasks();
   }, []);
-
+   
   return (
     <div className="App">
       <Navbar/>
