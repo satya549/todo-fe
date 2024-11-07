@@ -78,7 +78,7 @@ const TaskDialog = ({ tasks = [], fetchTasks }) => {
                 <IconButton color="success">
                   <CheckIcon />
                 </IconButton>
-                <IconButton color="error" onClick={() => handleDeleteTask(task.id)}  > 
+                <IconButton color="error" onClick={() => handleDeleteTask(task._id)}  > 
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
