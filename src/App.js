@@ -4,11 +4,10 @@ import Signup from "./component/auth/Signup.jsx"
 import Login from './component/auth/Login.jsx';
 import CreateTask from './component/auth/CreateTask.jsx'
 
-
 const appRouter = createBrowserRouter([
   {
     path:'/',
-    element:<Home/>
+    element:<Home />
   },
   {
     path:'/signup',
@@ -20,6 +19,10 @@ const appRouter = createBrowserRouter([
   },
   {
     path: '/create-task', 
+    element: <CreateTask />,
+  },
+  {
+    path: '/edit-task', 
     element: <CreateTask />,
   },
 ])

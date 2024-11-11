@@ -11,11 +11,8 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import CheckIcon from "@mui/icons-material/Check";
-import { useNavigate } from "react-router-dom";
-import { CREATE_TASK } from "../../urls";
-import axios from "axios";
-
 
 const getPriorityColor = (priority) => {
   switch (priority) {
@@ -29,23 +26,9 @@ const getPriorityColor = (priority) => {
       return "default";
   }
 };
+const initTasks = []
+const TaskDialog = ({tasks=initTasks,  onDelete, onAdd, onEdit }) => {
 
-const TaskDialog = ({ tasks = [], fetchTasks }) => {
-  const navigate = useNavigate();
-
-  const handleDeleteTask = async (taskId) => {
-    try {
-      await axios.delete(`${CREATE_TASK}/${taskId}`);
-      fetchTasks();
-    } catch (error) {
-      console.error("Failed to delete task", error);
-    }
-  };
-
-  const handleAddTaskClick = () => {
-    navigate("/create-task");
-  };
-  
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -61,7 +44,7 @@ const TaskDialog = ({ tasks = [], fetchTasks }) => {
         <TableBody>
           {Array.isArray(tasks) && tasks.length > 0 ? (
             tasks.map((task) => (
-            <TableRow key={task.id}>
+            <TableRow key={task._id}>
               <TableCell>{task.title}</TableCell>
               <TableCell>{task.description}</TableCell>
               <TableCell>
@@ -78,8 +61,11 @@ const TaskDialog = ({ tasks = [], fetchTasks }) => {
                 <IconButton color="success">
                   <CheckIcon />
                 </IconButton>
-                <IconButton color="error" onClick={() => handleDeleteTask(task._id)}  > 
+                <IconButton color="error" onClick={() => onDelete(task._id)}  > 
                   <DeleteIcon />
+                </IconButton>
+                <IconButton color="error" onClick={() => onEdit(task)}  > 
+                  <ModeEditIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -94,8 +80,7 @@ const TaskDialog = ({ tasks = [], fetchTasks }) => {
       </TableBody>
       </Table>
       <div style={{ padding: 16, display: "flex", justifyContent: "flex-end" }}>
-        <Button color="inherit">CANCEL</Button>
-        <Button variant="contained" color="primary" style={{ marginLeft: 8 }} onClick={handleAddTaskClick}>
+        <Button variant="contained" color="primary" style={{ marginLeft: 8 }} onClick={onAdd}>
           ADD TASK
         </Button>
       </div>
