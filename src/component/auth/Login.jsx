@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, TextField, Typography, Button, Box, Link } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';  // Import for React Router Link
+import { Link as RouterLink } from 'react-router-dom'; 
 import Navbar from '../shared/Navbar';
 
 const Login = () => {
@@ -69,7 +69,6 @@ const Login = () => {
           Login
         </Button>
 
-        {/* Link to the Signup page for new users */}
         <Typography variant="body2" sx={{ mt: 2 }}>
           Don't have an account?{" "}
           <Link

@@ -47,21 +47,11 @@ const TaskForm = () => {
         navigate('/')
       }
     })
-    
-  //   try {
-  //     const response = await axios.post(CREATE_TASK, taskData)
-  //     console.log(response.data)
-  //     navigate("/");
-      
-  //   } catch (error) {
-  //     console.log( error.response?.data || error.message)
-  // };
 };
 
 const goBack = () =>{
 navigate(-1)
 }
-
 
   return (
     <div>
